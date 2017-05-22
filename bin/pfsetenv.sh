@@ -194,10 +194,10 @@ case $(hostname) in
 	    PARFLOW_ZLIB_DIR=/usr
 	    PARFLOW_PFSIMULATOR_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io --with-clm --enable-opt=\"-O2 -g\" "
 
-	    PARFLOW_CC=mpiicc
-	    PARFLOW_CXX=mpiicpc
-	    PARFLOW_F77=mpiifort
-	    PARFLOW_FC=mpiifort
+	    PARFLOW_CC=icc
+	    PARFLOW_CXX=icpc
+	    PARFLOW_F77=ifort
+	    PARFLOW_FC=ifort
 
 	    PFTOOLS_TCL_DIR=/usr
 	    PARFLOW_MAKE_OPTIONS="-j 8"
