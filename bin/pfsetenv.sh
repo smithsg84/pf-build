@@ -182,10 +182,7 @@ case $(hostname) in
                . /usr/local/tools/dotkit/init.sh
 
 	       use cmake-3.4.1
-
 	       use ic-16.0.210
-	       # This is broke use vtune-2016
-	       use vtune-2015.2
 	    fi
 
 	    PARFLOW_MPI_DIR=/usr/local/bin
@@ -197,16 +194,12 @@ case $(hostname) in
 	    PARFLOW_ZLIB_DIR=/usr
 	    PARFLOW_PFSIMULATOR_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io --with-clm --enable-opt=\"-O2 -g\" "
 
-	    # LC wrappers take care of compilers/mpi with use statements
 	    PARFLOW_CC=mpiicc
 	    PARFLOW_CXX=mpiicpc
 	    PARFLOW_F77=mpiifort
 	    PARFLOW_FC=mpiifort
 
 	    PFTOOLS_TCL_DIR=/usr
-	    PFTOOLS_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io"
-	    PFTOOLS_CC=${PARFLOW_CC}
-	    
 	    PARFLOW_MAKE_OPTIONS="-j 8"
 	    ;;
 	 *)
