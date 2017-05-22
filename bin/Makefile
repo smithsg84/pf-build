@@ -17,7 +17,7 @@ INSTALL_DIR=$(PARFLOW_DIR)
 default: veryclean configure-mpi all install test
 
 all:
-	(pushd $(BUILD_DIR);make -j 12)
+	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) all)
 
 .PHONEY : configure-seq
 configure-seq:
