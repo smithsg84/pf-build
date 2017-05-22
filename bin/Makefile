@@ -32,14 +32,15 @@ configure-seq:
 	-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)) 
 
 
+# This is how to set the MPI compiler
+#	-DMPI_C_COMPILER=${PARFLOW_CC} \
+#	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
 .PHONEY : configure-mpi
 configure-mpi:
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
         -DPARFLOW_AMPS_LAYER=mpi1 \
-	-DMPI_C_COMPILER=${PARFLOW_CC} \
-	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 	-DHYPRE_ROOT=$(PARFLOW_HYPRE_DIR) \
 	-DHDF5_ROOT=$(PARFLOW_HDF5_DIR) \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
