@@ -1,5 +1,4 @@
-
-	#!/bin/bash
+#!/bin/bash
 # LLNS Copyright Start
 # Copyright (c) 2017, Lawrence Livermore National Security
 # This work was performed under the auspices of the U.S. Department 
@@ -106,8 +105,6 @@ case $(hostname) in
       module unload darshan
       module load cmake/3.5.2
 
-      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1"
-
       # Cray sets the compiler up to find things but CMAKE probes don't understand 
       # this way of doing things. Use module statements to setup env and then use: 
       #
@@ -121,8 +118,9 @@ case $(hostname) in
       export PARFLOW_TCL_DIR=/usr/common/software/tcl/8.6.4/gnu
       export PARFLOW_SLURM_DIR=/usr/
 
-      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DTCL_TCLSH=${PARFLOW_TCL_DIR}/bin/tclsh8.6 -DPARFLOW_AMPS_LAYER=mpi1"
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DTCL_TCLSH=${PARFLOW_TCL_DIR}/bin/tclsh8.6 -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
 
+      # Force shared library builds, by default Cori is doing static
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_FORCE_SHARED_LIBS=true -DCMAKE_C_FLAGS='-dynamic'"
 
       appendToLdPath $PARFLOW_SLURM_DIR/lib
@@ -140,23 +138,13 @@ case $(hostname) in
       PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/hypre/2.9.0b
       PARFLOW_HDF5_DIR=/usr/casc/EBSim/apps/rh6/hdf5/1.8.15p1
       PARFLOW_SUNDIALS_DIR=/usr/casc/EBSim/apps/rh6/sundials/R4475-pf
-      PARFLOW_PFSIMULATOR_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io --with-clm"
 
       PARFLOW_CC=mpicc
       PARFLOW_CXX=mpiCC
       PARFLOW_F77=mpif77
       PARFLOW_FC=mpif90
 
-      PFTOOLS_TCL_DIR=/usr/casc/EBSim/apps/rh6/tcl/8.6.0
-      PFTOOLS_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io"
-      PFTOOLS_CC=${PARFLOW_CC}
-
-      PARFLOW_SVN_DIR=/usr/casc/EBSim/apps/rh6/svn/1.9.3
-
-      if [ -f $PARFLOW_SVN_DIR/setup.sh ]
-      then
-	 . $PARFLOW_SVN_DIR/setup.sh
-      fi
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
 
       PARFLOW_MAKE_OPTIONS="-j 12"
       ;;
@@ -194,9 +182,9 @@ case $(hostname) in
       PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.10/bgqos_0_bgxlc
       PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/bgqos_0_bgxlc
       PARFLOW_ZLIB_DIR=/usr/gapps/silo/zlib/1.2.3/bgqos_0_bgxlc
-      PARFLOW_PFSIMULATOR_CONFIGURE_ARGS="--with-amps=mpi1 --with-clm"
 
       echo "Note: Should run pfconfigure on BG node"
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
       PFTOOLS_CONFIGURE_ARGS="--with-amps=mpi1"
       PFTOOLS_SILO_DIR=/usr/gapps/thcs/apps/bgqos_0/silo/4.10.3
       PFTOOLS_HDF5_DIR=/usr/gapps/thcs/apps/bgqos_0/hdf/2.10.1
@@ -230,7 +218,8 @@ case $(hostname) in
 	    PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.10/chaos_5_x86_64_ib
 	    PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/chaos_5_x86_64_ib
 	    PARFLOW_ZLIB_DIR=/usr
-	    PARFLOW_PFSIMULATOR_CONFIGURE_ARGS="--with-amps=mpi1 --with-amps-sequential-io --with-clm --enable-opt=\"-O2 -g\" "
+
+	    PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
 
 	    PARFLOW_CC=icc
 	    PARFLOW_CXX=icpc
