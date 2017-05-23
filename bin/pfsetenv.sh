@@ -123,6 +123,8 @@ case $(hostname) in
       # Force shared library builds, by default Cori is doing static
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_FORCE_SHARED_LIBS=true -DCMAKE_C_FLAGS='-dynamic'"
 
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_ENABLE_SLURM=true"
+
       appendToLdPath $PARFLOW_SLURM_DIR/lib
       appendToLdPath $PARFLOW_PFTOOLS_HDF5_DIR/lib
       appendToLdPath $PARFLOW_TCL_DIR/lib
