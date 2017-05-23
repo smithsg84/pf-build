@@ -1,4 +1,5 @@
-#!/bin/bash
+
+	#!/bin/bash
 # LLNS Copyright Start
 # Copyright (c) 2017, Lawrence Livermore National Security
 # This work was performed under the auspices of the U.S. Department 
@@ -88,10 +89,47 @@ popd &> /dev/null
 
 echo "Setting up to install to : $PARFLOW_DIR"
 
+PARFLOW_CMAKE_ARGS=""
+
 #=============================================================================
 # Machine specific configuration 
 #=============================================================================
 case $(hostname) in
+
+   cori*)
+      # LBNL Cori
+      # smith84@llnl.gov
+      # 2017/05/22
+
+      module load cray-hdf5
+      module load cray-tpsl
+      module unload darshan
+      module load cmake/3.5.2
+
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1"
+
+      # Cray sets the compiler up to find things but CMAKE probes don't understand 
+      # this way of doing things. Use module statements to setup env and then use: 
+      #
+      # cc  -craype-verbose
+      #
+      # Examine -L paths to where things are installed at.
+      export PARFLOW_SILO_DIR=/usr/common/software/silo/4.10.2/hsw/intel
+      export PARFLOW_HYPRE_DIR=/opt/cray/pe/tpsl/16.07.1/INTEL/15.0/haswell
+      export PARFLOW_SUNDIALS_DIR=/opt/cray/pe/tpsl/16.07.1/INTEL/15.0/haswell
+      export PARFLOW_HDF5_DIR=/opt/cray/pe/hdf5/1.10.0/INTEL/15.0
+      export PARFLOW_TCL_DIR=/usr/common/software/tcl/8.6.4/gnu
+      export PARFLOW_SLURM_DIR=/usr/
+
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DTCL_TCLSH=${PARFLOW_TCL_DIR}/bin/tclsh8.6 -DPARFLOW_AMPS_LAYER=mpi1"
+
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_FORCE_SHARED_LIBS=true -DCMAKE_C_FLAGS='-dynamic'"
+
+      appendToLdPath $PARFLOW_SLURM_DIR/lib
+      appendToLdPath $PARFLOW_PFTOOLS_HDF5_DIR/lib
+      appendToLdPath $PARFLOW_TCL_DIR/lib
+      ;;
+
    tux*)
       # LLNL Linux workstations
       # smith84@llnl.gov
@@ -214,78 +252,58 @@ esac
 #=============================================================================
 
 appendToPath $PARFLOW_DIR/bin
-appendToLdPath $PARFLOW_HDF5_DIR/lib
-appendToLdPath $PARFLOW_SILO_DIR/lib
 
-if [[ ${PARFLOW_SUNDIALS_DIR+x} ]]
+if [[ -n ${PARFLOW_SUNDIALS_DIR+x} ]]
 then
    export PARFLOW_SUNDIALS_DIR
    appendToLdPath $PARFLOW_SUNDIALS_DIR/lib
+
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DSUNDIALS_ROOT=${PARFLOW_SUNDIALS_DIR}"
 fi
 
-if [[ -z ${PFTOOLS_CC+x} ]]
+if [[ -n ${PARFLOW_HDF5_DIR+x} ]]
 then
-   PFTOOLS_CC=${PARFLOW_CC}
+   appendToLdPath $PARFLOW_HDF5_DIR/lib
+
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DHDF5_ROOT=${PARFLOW_HDF5_DIR}"
 fi
 
-if [[ -z ${PFTOOLS_CXX+x} ]]
+if [[ -n ${PARFLOW_HYPRE_DIR+x} ]]
 then
-   PFTOOLS_CXX=${PARFLOW_CXX}
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DHYPRE_ROOT=${PARFLOW_HYPRE_DIR}"
 fi
 
-if [[ -z ${PFTOOLS_HDF5_DIR+x} ]]
+if [[ -n ${PARFLOW_SILO_DIR+x} ]]
 then
-   PFTOOLS_HDF5_DIR=${PARFLOW_HDF5_DIR}
+   appendToLdPath $PARFLOW_SILO_DIR/lib
+
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DSILO_ROOT=${PARFLOW_SILO_DIR}"
 fi
 
-if [[ -z ${PFTOOLS_SZLIB_DIR+x} ]]
+if [[ -n ${PARFLOW_SZLIB_DIR+x} ]]
 then
-   if [[ ${PARFLOW_SZLIB_DIR+x} ]]
-   then
-      PFTOOLS_SZLIB_DIR=${PARFLOW_SZLIB_DIR}
-   fi
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DSZLIB_ROOT=${PARFLOW_SZLIB_DIR}"
 fi
 
-if [[ -z ${PFTOOLS_ZLIB_DIR+x} ]]
+if [[ -n  ${PARFLOW_ZLIB_DIR+x} ]]
 then
-   if [[ ${PARFLOW_ZLIB_DIR+x} ]]
-   then
-      PFTOOLS_ZLIB_DIR=${PARFLOW_ZLIB_DIR}
-   fi
+   PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DZLIB_ROOT=${PARFLOW_ZLIB_DIR}"
 fi
 
-if [[ ${PFTOOLS_SZLIB_DIR+x} ]]
-then
-   export PFTOOLS_SZLIB_DIR
-   appendToLdPath $PFTOOLS_SZLIB_DIR/lib
-fi
-
-if [[ ${PFTOOLS_ZLIB_DIR+x} ]]
-then
-   export PFTOOLS_ZLIB_DIR
-   appendToLdPath $PFTOOLS_ZLIB_DIR/lib
-fi
-
-if [[ ${PFTOOLS_TCL_DIR+x} ]]
-then
-   export PFTOOLS_TCL_DIR
-   appendToLdPath $PFTOOLS_TCL_DIR/lib
-fi
-
-if [[ -z ${PFTOOLS_SILO_DIR+x} ]]
-then
-   echo Using default silo
-   PFTOOLS_SILO_DIR=${PARFLOW_SILO_DIR}
-fi
-
+PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX=${PARFLOW_DIR}"
 
 # Export variables
-export PARFLOW_MPI_DIR PARFLOW_HYPRE_DIR 
-export PARFLOW_SILO_DIR PARFLOW_HDF5_DIR PARFLOW_SZLIB_DIR PARFLOW_ZLIB_DIR
-export PARFLOW_PFSIMULATOR_CONFIGURE_ARGS
+export PARFLOW_MPI_DIR 
+export PARFLOW_HYPRE_DIR 
+export PARFLOW_SILO_DIR 
+export PARFLOW_HDF5_DIR 
+export PARFLOW_SZLIB_DIR 
+export PARFLOW_ZLIB_DIR
+export PARFLOW_SLURM_DIR
+
+export PARFLOW_CMAKE_ARGS
+
 export PARFLOW_FC PARFLOW_F77 PARFLOW_CC PARFLOW_CXX 
 
-export PFTOOLS_CONFIGURE_ARGS
-export PFTOOLS_SILO_DIR PFTOOLS_HDF5_DIR 
-export PFTOOLS_CC PFTOOLS_CXX
+
 
