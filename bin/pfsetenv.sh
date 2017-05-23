@@ -88,7 +88,7 @@ popd &> /dev/null
 
 echo "Setting up to install to : $PARFLOW_DIR"
 
-PARFLOW_CMAKE_ARGS=""
+PARFLOW_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
 
 #=============================================================================
 # Machine specific configuration 
