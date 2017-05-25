@@ -118,12 +118,20 @@ case $(hostname) in
       export PARFLOW_TCL_DIR=/usr/common/software/tcl/8.6.4/gnu
       export PARFLOW_SLURM_DIR=/usr/
 
+      # Maybe CMAKE_LINK_SEARCH_START_STATIC
+
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DTCL_TCLSH=${PARFLOW_TCL_DIR}/bin/tclsh8.6 -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
 
-      # Force shared library builds, by default Cori is doing static
-      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_FORCE_SHARED_LIBS=true -DCMAKE_C_FLAGS='-dynamic'"
+      # Force shared library builds, by default Cori is doing static.  Need to set for both 
+      # C and Fortran otherise Cmake will not build dynamic do to rules in the Cray cmake modules.
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DCMAKE_C_FLAGS='-dynamic' -DCMAKE_Fortran_FLAGS='-dynamic'"
 
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_ENABLE_SLURM=true"
+
+      # This was needed due to way Hypre was compiled, unresolved symbols if not used.
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_LINKER_FLAGS='-parallel'"
+
+      PARFLOW_MAKE_OPTIONS="-j 8"
 
       appendToLdPath $PARFLOW_SLURM_DIR/lib
       appendToLdPath $PARFLOW_PFTOOLS_HDF5_DIR/lib
