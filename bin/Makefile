@@ -19,14 +19,6 @@ default: veryclean configure-mpi all install test
 all:
 	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) all)
 
-.PHONEY : configure-seq
-configure-seq:
-	mkdir -p $(BUILD_DIR)
-	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
-	-DPARFLOW_ENABLE_TIMING=TRUE \
-	-DPARFLOW_HAVE_CLM=ON \
-	$(PARFLOW_CMAKE_ARGS))
-
 # This is how to set the MPI compiler
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \

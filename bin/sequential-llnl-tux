@@ -1,0 +1,22 @@
+
+#
+# Example of building sequential version of Parflow.
+#
+
+PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh6/silo/4.10.2
+PARFLOW_HYPRE_DIR=/usr/casc/EBSim/apps/rh6/hypre/2.10.1-seq/
+PARFLOW_HDF5_DIR=/usr/casc/EBSim/apps/rh6/hdf5/1.8.15p1
+PARFLOW_SUNDIALS_DIR=/usr/casc/EBSim/apps/rh6/sundials/R4475-pf
+
+mkdir build
+pushd build
+cmake \
+      -DPARFLOW_ENABLE_TIMING=TRUE \
+      -DPARFLOW_HAVE_CLM=ON \
+      -DSUNDIALS_ROOT=${PARFLOW_SUNDIALS_DIR} \
+      -DHDF5_ROOT=${PARFLOW_HDF5_DIR} \
+      -DHYPRE_ROOT=${PARFLOW_HYPRE_DIR} \
+      -DSILO_ROOT=${PARFLOW_SILO_DIR} \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=${PARFLOW_DIR} \
+      ../parflow
