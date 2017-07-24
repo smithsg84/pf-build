@@ -90,6 +90,8 @@ echo "Setting up to install to : $PARFLOW_DIR"
 
 PARFLOW_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
 
+export PARFLOW_CFLAGS=""
+
 #=============================================================================
 # Machine specific configuration 
 #=============================================================================
@@ -132,6 +134,13 @@ case $(hostname) in
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_LINKER_FLAGS='-parallel'"
 
       PARFLOW_MAKE_OPTIONS="-j 8"
+
+      export PARFLOW_CC=cc 
+      export PARFLOW_CXX=CC 
+      export PARFLOW_F77=ftn 
+      export PARFLOW_FC=ftn
+
+      export PARFLOW_CFLAGS='-dynamic'
 
       appendToLdPath $PARFLOW_SLURM_DIR/lib
       appendToLdPath $PARFLOW_PFTOOLS_HDF5_DIR/lib

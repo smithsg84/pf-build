@@ -14,7 +14,7 @@ SRC_DIR=parflow
 BUILD_DIR=build
 INSTALL_DIR=$(PARFLOW_DIR)
 
-default: veryclean configure-mpi all install test
+default: veryclean cmake-mpi all install test
 
 all:
 	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) all)
@@ -23,8 +23,8 @@ all:
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
-.PHONEY : configure-mpi
-configure-mpi:
+.PHONEY : cmake-mpi
+cmake-mpi:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
@@ -32,8 +32,8 @@ configure-mpi:
 	-DPARFLOW_HAVE_CLM=ON \
 	$(PARFLOW_CMAKE_ARGS))
 
-.PHONEY : configure-mpi-profile
-configure-mpi-profile:
+.PHONEY : cmake-mpi-profile
+cmake-mpi-profile:
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
@@ -41,7 +41,7 @@ configure-mpi-profile:
 	-DPARFLOW_HAVE_CLM=ON \
 	$(PARFLOW_CMAKE_ARGS))
 
-configure-oas3:
+cmake-oas3:
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
 	-DHYPRE_ROOT=$(PARFLOW_HYPRE_DIR) \
