@@ -153,19 +153,41 @@ case $(hostname) in
       # 2015/11/06
       PARFLOW_MPI_DIR=/usr/casc/EBSim/apps/rh6/openmpi/1.10.0-gcc-4.9.1
       PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/silo/4.10.2
-      #PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/hypre/2.10.1
       PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/hypre/2.9.0b
       PARFLOW_HDF5_DIR=/usr/casc/EBSim/apps/rh6/hdf5/1.8.15p1
       PARFLOW_SUNDIALS_DIR=/usr/casc/EBSim/apps/rh6/sundials/R4475-pf
-
+      
       PARFLOW_CC=mpicc
       PARFLOW_CXX=mpiCC
       PARFLOW_F77=mpif77
       PARFLOW_FC=mpif90
-
+      
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
-
+      
       PARFLOW_MAKE_OPTIONS="-j 12"
+      ;;
+   *quartz*)
+      # LLNL Quartz 
+      # smith84@llnl.gov
+      # 2017/09/12
+
+      module load cmake
+
+      PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
+      PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
+      PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.10.1
+      PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/sundials/R4475-pf
+      PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.16/${SYS_TYPE}
+      PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/${SYS_TYPE}
+      PARFLOW_ZLIB_DIR=/usr
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true -DPARFLOW_HAVE_CLM=yes"
+      
+      PARFLOW_CC=mpicc
+      PARFLOW_CXX=mpicxx
+      PARFLOW_F77=mpif77
+      PARFLOW_FC=mpifort
+      
+      PARFLOW_MAKE_OPTIONS="-j 8"
       ;;
    vulcan*)
       # LLNL Vulcan BG/Q machine
