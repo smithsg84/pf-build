@@ -45,6 +45,10 @@ cmake-mpi-tux:
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	$(PARFLOW_CMAKE_ARGS))
 
+# NetCDF is failing on Redhat 7.3
+#	-DPARFLOW_ENABLE_NETCDF=TRUE \
+
+
 .PHONEY : cmake-mpi-profile
 cmake-mpi-profile:
 	mkdir -p $(BUILD_DIR)

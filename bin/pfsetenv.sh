@@ -153,8 +153,10 @@ case $(hostname) in
       # 2015/11/06
 
       module load mpi/openmpi-x86_64
+      PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
 
-      PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2
+      #module load mpi/mpich-x86_64
+      #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.mpich
 
       PARFLOW_CC=mpicc
       PARFLOW_CXX=mpiCC
