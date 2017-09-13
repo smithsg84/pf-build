@@ -151,12 +151,11 @@ case $(hostname) in
       # LLNL Linux workstations
       # smith84@llnl.gov
       # 2015/11/06
-      PARFLOW_MPI_DIR=/usr/casc/EBSim/apps/rh6/openmpi/1.10.0-gcc-4.9.1
-      PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/silo/4.10.2
-      PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/hypre/2.9.0b
-      PARFLOW_HDF5_DIR=/usr/casc/EBSim/apps/rh6/hdf5/1.8.15p1
-      PARFLOW_SUNDIALS_DIR=/usr/casc/EBSim/apps/rh6/sundials/R4475-pf
-      
+
+      module load mpi/openmpi-x86_64
+
+      PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2
+
       PARFLOW_CC=mpicc
       PARFLOW_CXX=mpiCC
       PARFLOW_F77=mpif77

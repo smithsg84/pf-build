@@ -14,7 +14,7 @@ SRC_DIR=parflow
 BUILD_DIR=build
 INSTALL_DIR=$(PARFLOW_DIR)
 
-default: veryclean cmake-mpi all install test
+default: veryclean cmake-mpi-tux all install test
 
 all:
 	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) all)
@@ -30,6 +30,19 @@ cmake-mpi:
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
 	-DPARFLOW_HAVE_CLM=ON \
+	$(PARFLOW_CMAKE_ARGS))
+
+.PHONEY : cmake-mpi-tux
+cmake-mpi-tux:
+	echo $(PARFLOW_CMAKE_ARGS)
+	mkdir -p $(BUILD_DIR)
+	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
+	-DPARFLOW_ENABLE_TIMING=TRUE \
+	-DPARFLOW_HAVE_CLM=ON \
+	-DPARFLOW_ENABLE_HDF5=TRUE \
+	-DPARFLOW_ENABLE_HYPRE=TRUE \
+	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
+	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	$(PARFLOW_CMAKE_ARGS))
 
 .PHONEY : cmake-mpi-profile
