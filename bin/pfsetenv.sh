@@ -102,7 +102,8 @@ case $(hostname) in
       # smith84@llnl.gov
       # 2017/05/22
 
-      module load cray-hdf5
+      module load cray-hdf5-parallel
+      module load cray-netcdf-hdf5parallel
       module load cray-tpsl
       module unload darshan
       module load cmake/3.5.2
@@ -113,10 +114,16 @@ case $(hostname) in
       # cc  -craype-verbose
       #
       # Examine -L paths to where things are installed at.
+      #export PARFLOW_HDF5_DIR=/opt/cray/pe/hdf5-parallel/default/INTEL/16.0
+      #export PARFLOW_NETCDF_DIR=/opt/cray/pe/netcdf-hdf5parallel/default/INTEL/16.0
+      #export PARFLOW_HYPRE_DIR=/opt/cray/pe/tpsl/default/INTEL/16.0/haswell/
+      #export PARFLOW_SUNDIALS_DIR=/opt/cray/pe/tpsl/default/INTEL/16.0/haswell/
+
+      export PARFLOW_HYPRE_DIR=${CRAY_TPSL_DIR}/INTEL/${PE_TPSL_GENCOMPILERS_INTEL_x86_64}/haswell
+      export PARFLOW_SUNDIALS_DIR=${CRAY_TPSL_DIR}/INTEL/${PE_TPSL_GENCOMPILERS_INTEL_x86_64}/haswell
+      export PARFLOW_NETCDF_DIR=${CRAY_NETCDF_DIR}/INTEL/${PE_TPSL_GENCOMPILERS_INTEL_x86_64}
+      export PARFLOW_HDF5_DIR=${CRAY_HDF5_DIR}/INTEL/${PE_TPSL_GENCOMPILERS_INTEL_x86_64}
       export PARFLOW_SILO_DIR=/usr/common/software/silo/4.10.2/hsw/intel
-      export PARFLOW_HYPRE_DIR=/opt/cray/pe/tpsl/16.07.1/INTEL/15.0/haswell
-      export PARFLOW_SUNDIALS_DIR=/opt/cray/pe/tpsl/16.07.1/INTEL/15.0/haswell
-      export PARFLOW_HDF5_DIR=/opt/cray/pe/hdf5/1.10.0/INTEL/15.0
       export PARFLOW_TCL_DIR=/usr/common/software/tcl/8.6.4/gnu
       export PARFLOW_SLURM_DIR=/usr/
 
@@ -133,7 +140,9 @@ case $(hostname) in
       # This was needed due to way Hypre was compiled, unresolved symbols if not used.
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_LINKER_FLAGS='-parallel'"
 
-      PARFLOW_MAKE_OPTIONS="-j 8"
+      # Parallel build fails in CLM
+      #PARFLOW_MAKE_OPTIONS="-j 8"
+      PARFLOW_MAKE_OPTIONS=""
 
       export PARFLOW_CC=cc 
       export PARFLOW_CXX=CC 
@@ -272,6 +281,11 @@ case $(hostname) in
 	    PFTOOLS_TCL_DIR=/usr
 	    PARFLOW_MAKE_OPTIONS="-j 8"
 	    ;;
+	 *Ubuntu*)
+	    PARFLOW_CC=mpicc
+	    PARFLOW_CXX=mpiCC
+	    PARFLOW_F77=mpif77
+	    PARFLOW_FC=mpif90
 	 *)
 	    echo "Don't know how to setup on $hostname"
 	    exit 1
