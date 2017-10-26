@@ -286,6 +286,7 @@ case $(hostname) in
 	    PARFLOW_CXX=mpiCC
 	    PARFLOW_F77=mpif77
 	    PARFLOW_FC=mpif90
+	    ;;
 	 *)
 	    echo "Don't know how to setup on $hostname"
 	    exit 1
