@@ -166,6 +166,8 @@ case $(hostname) in
       module load mpi/openmpi-x86_64
       PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
 
+      source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
+
       #module load mpi/mpich-x86_64
       #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.mpich
 
