@@ -24,14 +24,19 @@ all:
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
-.PHONEY : cmake-mpi
-cmake-mpi:
+.PHONEY : cmake
+cmake:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
-	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
+	(pushd $(BUILD_DIR) && FC=$(gfortran) CC=$(gcc) CXX=$(g++) cmake ../parflow \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
 	-DPARFLOW_HAVE_CLM=ON \
-	$(PARFLOW_CMAKE_ARGS))
+	-DPARFLOW_ENABLE_VALGRIND=TRUE \
+	-DCMAKE_BUILD_TYPE=Debug \
+	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
+	-DHYPRE_ROOT=/usr \
+	-DSILO_ROOT=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi \
+	-DCMAKE_INSTALL_PREFIX=/home/smith84/projects/conus/valgrind-option/local/rh7)
 
 .PHONEY : cmake-mpi-tux
 cmake-mpi-tux:
@@ -44,6 +49,21 @@ cmake-mpi-tux:
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
 	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
+	$(PARFLOW_CMAKE_ARGS))
+
+.PHONEY : cmake-valgrind-tux
+cmake-valgrind-tux:
+	echo $(PARFLOW_CMAKE_ARGS)
+	mkdir -p $(BUILD_DIR)
+	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
+	-DPARFLOW_ENABLE_TIMING=TRUE \
+	-DPARFLOW_HAVE_CLM=ON \
+	-DPARFLOW_ENABLE_HDF5=TRUE \
+	-DPARFLOW_ENABLE_HYPRE=TRUE \
+	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
+	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
+	-DPARFLOW_ENABLE_VALGRIND=TRUE \
+	-DCMAKE_BUILD_TYPE=Debug \
 	$(PARFLOW_CMAKE_ARGS))
 
 # NetCDF is failing on Redhat 7.3
@@ -89,7 +109,7 @@ test:
 	(pushd $(BUILD_DIR) && make test)
 .PHONEY : install
 install:
-	(pushd $(BUILD_DIR) && make install)
+	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) install)
 
 .PHONEY : clean
 clean:
