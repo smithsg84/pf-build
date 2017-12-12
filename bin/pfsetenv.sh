@@ -172,6 +172,8 @@ case $(hostname) in
 	 PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
 	 PARFLOW_HDF5_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
 	 PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+
+	 export PARFLOW_MPIEXEC_EXTRA_FLAGS="--mca mpi_yield_when_idle 1 --oversubscribe"
       else
 	 module load mpi/openmpi-x86_64
 	 PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
