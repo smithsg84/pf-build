@@ -164,13 +164,21 @@ case $(hostname) in
 
       source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
 
-      module load mpi/openmpi-x86_64
-      PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
+      if ( true )
+      then
+	 echo "Setting up debug env"
 
-      source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
-
-      #module load mpi/mpich-x86_64
-      #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.mpich
+	 source $EBSIM_APPS_DIR/openmpi/3.0.0-debug/setup.sh
+	 PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 PARFLOW_HDF5_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+      else
+	 module load mpi/openmpi-x86_64
+	 PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
+	 
+	 #module load mpi/mpich-x86_64
+	 #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.mpich
+      fi
 
       PARFLOW_CC=mpicc
       PARFLOW_CXX=mpiCC
