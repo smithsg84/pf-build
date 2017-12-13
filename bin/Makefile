@@ -25,18 +25,23 @@ all:
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
 .PHONEY : cmake
-cmake:
+clang:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
-	(pushd $(BUILD_DIR) && FC=$(gfortran) CC=$(gcc) CXX=$(g++) cmake ../parflow \
+	(pushd $(BUILD_DIR) && FC=gfortran CC=clang CXX=clang++ cmake ../parflow \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
 	-DPARFLOW_HAVE_CLM=ON \
-	-DPARFLOW_ENABLE_VALGRIND=TRUE \
-	-DCMAKE_BUILD_TYPE=Debug \
 	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
-	-DHYPRE_ROOT=/usr \
-	-DSILO_ROOT=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi \
-	-DCMAKE_INSTALL_PREFIX=/home/smith84/projects/conus/valgrind-option/local/rh7)
+	-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR))
+
+gnu:
+	echo $(PARFLOW_CMAKE_ARGS)
+	mkdir -p $(BUILD_DIR)
+	(pushd $(BUILD_DIR) && FC=gfortran CC=gcc CXX=g++ cmake ../parflow \
+	-DPARFLOW_ENABLE_TIMING=TRUE \
+	-DPARFLOW_HAVE_CLM=ON \
+	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
+	-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR))
 
 .PHONEY : cmake-mpi-tux
 cmake-mpi-tux:

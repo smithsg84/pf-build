@@ -163,6 +163,7 @@ case $(hostname) in
       # 2015/11/06
 
       source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
+      source /usr/casc/EBSim/apps/rh7/clang/5.0.0/setup.sh 
 
       if ( true )
       then
