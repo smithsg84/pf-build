@@ -197,7 +197,7 @@ case $(hostname) in
       # smith84@llnl.gov
       # 2017/09/12
 
-      module load cmake
+      module load cmake/3.9.2
 
       PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
       PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
