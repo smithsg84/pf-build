@@ -101,7 +101,7 @@ case $(hostname) in
    cori*)
       # LBNL Cori
       # smith84@llnl.gov
-      # 2017/05/22
+      # 2018/08/02
 
       module load cray-hdf5-parallel
       module load cray-netcdf-hdf5parallel
