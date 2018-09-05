@@ -197,6 +197,8 @@ case $(hostname) in
       # smith84@llnl.gov
       # 2017/09/12
 
+      echo "Setting up for quartz"
+
       module load cmake/3.9.2
 
       PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
@@ -208,55 +210,73 @@ case $(hostname) in
       PARFLOW_ZLIB_DIR=/usr
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true -DPARFLOW_HAVE_CLM=yes"
       
-      PARFLOW_CC=mpicc
-      PARFLOW_CXX=mpicxx
-      PARFLOW_F77=mpif77
-      PARFLOW_FC=mpifort
-      
-      PARFLOW_MAKE_OPTIONS="-j 8"
-      ;;
-   vulcan*)
-      # LLNL Vulcan BG/Q machine
-      # smith84@llnl.gov
-      # 2016/06/17
-
-      if [ -f /usr/local/tools/dotkit/init.sh ]; then
-         . /usr/local/tools/dotkit/init.sh
-
-	 use git
-	 use tau
-      fi
-
-      export TAU_PROFILE_FORMAT=merged
-      export TAU_MAKEFILE=/usr/global/tools/tau/training/tau-2.23.2b3/bgq/lib/Makefile.tau-bgqtimers-papi-mpi-pdt
-      export TAU_OPTIONS="-optRevert"
-      
       if true; then
-	 PARFLOW_CC=mpixlcxx
-	 PARFLOW_CXX=mpixlcxx
-	 PARFLOW_F77=mpixlf77
-	 PARFLOW_FC=mpixlf90
+	 PARFLOW_CC=mpicc
+	 PARFLOW_CXX=mpicxx
+	 PARFLOW_F77=mpif77
+	 PARFLOW_FC=mpifort
       else
+	 # export TAU_PROFILE_FORMAT=merged
+	 # export TAU_MAKEFILE=/usr/global/tools/tau/training/tau-2.23.2b3/bgq/lib/Makefile.tau-bgqtimers-papi-mpi-pdt
+	 export TAU_OPTIONS="-optRevert"
+
+	 if [ -f /usr/tce/packages/dotkit/init.sh ]; then
+	    . /usr/tce/packages/dotkit/init.sh
+	    use tau
+	 fi
+
 	 PARFLOW_CC=tau_cc.sh
 	 PARFLOW_CXX=tau_cxx.sh
 	 PARFLOW_F77=tau_f77.sh
 	 PARFLOW_FC=tau_f90.sh
       fi
-	 
+      
+      PFTOOLS_CC=gcc
+      PFTOOLS_CXX=g++
+      
+      PARFLOW_MAKE_OPTIONS="-j 8"
+      ;;
 
-      PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/bgqos_0/hypre/2.10.1
-      PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.3/bgqos_0_bgxlc
-      PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.10/bgqos_0_bgxlc
-      PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/bgqos_0_bgxlc
-      PARFLOW_ZLIB_DIR=/usr/gapps/silo/zlib/1.2.3/bgqos_0_bgxlc
+   *flash*)
+      # LLNL Flash
+      # smith84@llnl.gov
+      # 2018/08/27
 
-      echo "Note: Should run pfconfigure on BG node"
-      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
-      PFTOOLS_CONFIGURE_ARGS="--with-amps=mpi1"
-      PFTOOLS_SILO_DIR=/usr/gapps/thcs/apps/bgqos_0/silo/4.10.3
-      PFTOOLS_HDF5_DIR=/usr/gapps/thcs/apps/bgqos_0/hdf/2.10.1
-      PFTOOLS_SZLIB_DIR=/usr/gapps/thcs/apps/bgqos_0/szip/2.1
+      module load cmake/3.9.2
 
+      PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
+      PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
+      PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.10.1
+      PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/sundials/R4475-pf
+      PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.16/${SYS_TYPE}
+      PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/${SYS_TYPE}
+      PARFLOW_ZLIB_DIR=/usr
+      PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true -DPARFLOW_HAVE_CLM=yes"
+      
+      if false; then
+	 PARFLOW_CC=mpicc
+	 PARFLOW_CXX=mpicxx
+	 PARFLOW_F77=mpif77
+	 PARFLOW_FC=mpifort
+      else
+
+	 # export TAU_PROFILE_FORMAT=merged
+	 # export TAU_MAKEFILE=/usr/global/tools/tau/training/tau-2.23.2b3/bgq/lib/Makefile.tau-bgqtimers-papi-mpi-pdt
+	 # export TAU_OPTIONS="-optRevert"
+
+	 if [ -f /usr/tce/packages/dotkit/init.sh ]; then
+	    . /usr/tce/packages/dotkit/init.sh
+	    use tau
+	 fi
+
+	 export TAU_OPTIONS=-optRevert
+
+	 PARFLOW_CC=tau_cc.sh
+	 PARFLOW_CXX=tau_cxx.sh
+	 PARFLOW_F77=tau_f77.sh
+	 PARFLOW_FC=tau_f90.sh
+      fi
+      
       PFTOOLS_CC=gcc
       PFTOOLS_CXX=g++
 
