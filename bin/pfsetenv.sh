@@ -246,14 +246,15 @@ case $(hostname) in
 
       PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
       PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
-      PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.10.1
+      PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.15.1
       PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/sundials/R4475-pf
       PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.16/${SYS_TYPE}
       PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/${SYS_TYPE}
       PARFLOW_ZLIB_DIR=/usr
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true -DPARFLOW_HAVE_CLM=yes"
       
-      if false; then
+      if true
+      then
 	 PARFLOW_CC=mpicc
 	 PARFLOW_CXX=mpicxx
 	 PARFLOW_F77=mpif77
