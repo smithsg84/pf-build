@@ -45,7 +45,6 @@ gnu:
 
 #	-DPARFLOW_ENABLE_LATEX=TRUE \
 
-
 lc:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -55,8 +54,8 @@ lc:
 	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
 	$(PARFLOW_CMAKE_ARGS))
 
-.PHONEY : cmake-mpi-tux
-cmake-mpi-tux:
+.PHONEY : tux
+tux:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
@@ -66,6 +65,7 @@ cmake-mpi-tux:
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
 	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
+	-DPARFLOW_ENABLE_LATEX=TRUE \
 	$(PARFLOW_CMAKE_ARGS))
 
 .PHONEY : cmake-valgrind-tux
