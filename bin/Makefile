@@ -143,6 +143,10 @@ cori-wrf:
 .PHONEY : test
 test:
 	(pushd $(BUILD_DIR) && make test)
+
+.PHONEY : check
+check: test
+
 .PHONEY : install
 install:
 	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) install)
