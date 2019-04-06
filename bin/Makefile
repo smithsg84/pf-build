@@ -66,7 +66,12 @@ tux:
 	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	-DCMAKE_BUILD_TYPE=Debug \
+	-DPARFLOW_ENABLE_DOXYGEN=ON \
 	$(PARFLOW_CMAKE_ARGS))
+
+.PHONEY : docs
+doc:
+	(pushd $(BUILD_DIR) && make doc_doxygen)
 
 .PHONEY : cmake-valgrind-tux
 cmake-valgrind-tux:
@@ -154,6 +159,9 @@ install:
 .PHONEY : clean
 clean:
 	(pushd $(BUILD_DIR) && make clean)
+	(pushd $(SRC_DIR)/test && make clean)
+	(pushd $(SRC_DIR)/test/clm && make clean)
+	(pushd $(SRC_DIR)/examples && make clean)
 
 .PHONEY : veryclean
 veryclean:
