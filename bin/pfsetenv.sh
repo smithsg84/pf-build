@@ -165,6 +165,7 @@ case $(hostname) in
       source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
       source /usr/casc/EBSim/apps/rh7/clang/5.0.0/setup.sh 
       source /usr/casc/EBSim/apps/rh7/gcc/8.2.0/setup.sh 
+      source /usr/casc/EBSim/apps/rh7/valgrind/3.13.0/setup.sh
 
       if ( true )
       then
