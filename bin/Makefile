@@ -66,10 +66,11 @@ tux:
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
 	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
+	-DPARFLOW_ENABLE_DOXYGEN=ON \
 	$(PARFLOW_CMAKE_ARGS))
 
 #       -DPARFLOW_ENABLE_VALGRIND=true \
-#	-DPARFLOW_ENABLE_DOXYGEN=ON \
+#	
 #	-DCMAKE_BUILD_TYPE=Debug \
 
 .PHONEY : docs
@@ -157,7 +158,7 @@ check: test
 
 .PHONEY : install
 install:
-	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) install)
+	(pushd $(BUILD_DIR) && make $(PARFLOW_MAKE_OPTIONS) install)
 
 .PHONEY : clean
 clean:
