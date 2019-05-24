@@ -1,0 +1,3 @@
+#!/bin/bash
+
+grep sec $1 | awk -e '{print $4,",",$7}'
