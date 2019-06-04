@@ -78,7 +78,7 @@ tux:
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
-	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_BUILD_TYPE=Debug \
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_ENABLE_HDF5=TRUE \
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
@@ -181,11 +181,10 @@ install:
 
 .PHONEY : clean
 clean:
-	(pushd $(BUILD_DIR) && make clean)
 	(pushd $(SRC_DIR)/test && make clean)
 	(pushd $(SRC_DIR)/test/clm && make clean)
 	(pushd $(SRC_DIR)/examples && make clean)
 
 .PHONEY : veryclean
-veryclean:
+veryclean: clean
 	rm -fr $(BUILD_DIR) $(INSTALL_DIR)
