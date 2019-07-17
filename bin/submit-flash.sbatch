@@ -3,6 +3,7 @@
 #SBATCH -t 01:00:00
 #SBATCH -A oflash 
 #SBATCH -p pbatch
+#SBATCH -o sbatch-test-out
 
 echo 'STARTING JOB'
 

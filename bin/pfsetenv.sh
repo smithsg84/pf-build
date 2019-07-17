@@ -321,11 +321,19 @@ case $(hostname) in
 	    PFTOOLS_TCL_DIR=/usr
 	    PARFLOW_MAKE_OPTIONS="-j 8"
 	    ;;
-	 *Ubuntu*)
+	  *Ubuntu*)
 	    PARFLOW_CC=mpicc
 	    PARFLOW_CXX=mpiCC
 	    PARFLOW_F77=mpif77
 	    PARFLOW_FC=mpif90
+	    ;;
+	  *CYGWIN*)
+	    PARFLOW_CC=mpicc
+	    PARFLOW_CXX=mpic++
+	    PARFLOW_F77=mpifort
+	    PARFLOW_FC=mpif90
+	    
+	    export PARFLOW_MPIEXEC_EXTRA_FLAGS="--mca mpi_yield_when_idle 1 --oversubscribe"
 	    ;;
 	 *)
 	    echo "Don't know how to setup on $hostname"
