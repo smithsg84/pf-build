@@ -204,7 +204,6 @@ case $(hostname) in
 
       module load cmake/3.9.2
 
-      PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
       PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
       PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.10.1
       PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/sundials/R4475-pf
@@ -247,7 +246,6 @@ case $(hostname) in
 
       module load cmake/3.9.2
 
-      PARFLOW_MPI_DIR=/usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/bin
       PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
       PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.15.1
       PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/sundials/R4475-pf
@@ -302,7 +300,6 @@ case $(hostname) in
 	       use ic-16.0.210
 	    fi
 
-	    PARFLOW_MPI_DIR=/usr/local/bin
 	    PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/chaos_5_x86_64_ib
 	    PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/hypre/2.10.1
 	    PARFLOW_SUNDIALS_DIR=/usr/gapps/thcs/apps/sundials/R4475-pf
@@ -333,7 +330,7 @@ case $(hostname) in
 	    PARFLOW_F77=mpifort
 	    PARFLOW_FC=mpif90
 	    
-	    export PARFLOW_MPIEXEC_EXTRA_FLAGS="--mca mpi_yield_when_idle 1 --oversubscribe"
+	    export PARFLOW_MPIEXEC_EXTRA_FLAGS="--oversubscribe"
 	    ;;
 	 *)
 	    echo "Don't know how to setup on $hostname"
@@ -388,7 +385,6 @@ fi
 PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX=${PARFLOW_DIR}"
 
 # Export variables
-export PARFLOW_MPI_DIR 
 export PARFLOW_HYPRE_DIR 
 export PARFLOW_SILO_DIR 
 export PARFLOW_HDF5_DIR 
