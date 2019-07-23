@@ -24,6 +24,10 @@ all:
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
+.PHONEY : spack
+spack:
+	bin/pfstack
+
 .PHONEY : cmake
 clang:
 	echo $(PARFLOW_CMAKE_ARGS)

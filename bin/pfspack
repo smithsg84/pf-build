@@ -1,0 +1,41 @@
+
+# Checkout Spack
+# Currently need a ParFlow specific Spack since Silo build rules needed an additional option and ParFlow configuration
+# was added.
+# SGS TODO put in pull request to Spack team when these changes are known to work so PF is part of Spack
+
+git clone git@github.com:parflow/spack.git
+
+# Setup spack environment
+source spack/share/spack/setup-env.sh
+
+# This will take some some, builds ParFlow and dependencies
+spack install parflow@develop
+
+# Setup some environment variables for running out of the Spack directories
+# SGS Can we use a Spack view to make this simpler? What is best way to setup Spack for execution?
+export PARFLOW_DIR=$(spack location --install-dir parflow)
+export PARFLOW_TCL_DIR=$(spack location --install-dir tcl)
+export PARFLOW_MPI_DIR=$(spack location --install-dir openmpi)
+
+# Setup path to point to TCL, MPI and PF directories.
+export PATH=${PARFLOW_MPI_DIR}/bin:$${PARFLOW_TCL_DIR}/bin:${PARFLOW_DIR}/bin:$PATH
+
+# Are we using spack versions?
+echo "Using PARFLOW_DIR=${PARFLOW_DIR}"
+echo "Using tclsh : $(which tclsh)"
+echo "Using mpirun : $(which mpirun)"
+
+# Run a few tests
+
+git clone git@github.com:parflow/parflow.git
+
+cd parflow/test
+
+tclsh default_single.tcl 1 1 1
+
+tclsh default_single.tcl 2 2 2
+
+tclsh default_richards_with_netcdf.tcl 1 1 1
+
+tclsh default_richards_with_netcdf.tcl 2 2 2
