@@ -45,8 +45,8 @@ gnu:
 	-DPARFLOW_ENABLE_TIMING=TRUE \
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
-	$(PARFLOW_CMAKE_ARGS))
-
+	-DPARFLOW_AMPS_LAYER=seq \
+	-DCMAKE_INSTALL_PREFIX=/home/smith84/projects/conus/metadata-168/pf-build/local/rh7)
 
 cygwin:
 	echo $(PARFLOW_CMAKE_ARGS)
