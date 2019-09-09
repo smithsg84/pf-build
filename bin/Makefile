@@ -115,7 +115,7 @@ tux:
 
 .PHONEY : docs
 doc:
-	(pushd $(BUILD_DIR) && make doc_doxygen)
+	(pushd $(BUILD_DIR) && make doxygen)
 
 .PHONEY : tux-valgrind
 tux-valgrind:
