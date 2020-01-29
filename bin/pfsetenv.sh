@@ -160,12 +160,14 @@ case $(hostname) in
    tux*)
       # LLNL Linux workstations
       # smith84@llnl.gov
-      # 2015/11/06
-
+      # 2019/01/28
       source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
-      source /usr/casc/EBSim/apps/rh7/clang/7.1.0/setup.sh 
-      source /usr/casc/EBSim/apps/rh7/gcc/8.2.0/setup.sh
-      source /usr/casc/EBSim/apps/rh7/rtags/2.33/setup.sh
+      source ${EBSIM_APPS_DIR}/uncrustify/0.61/setup.sh
+      #source ${EBSIM_APPS_DIR}/rtags/2.37/setup.sh
+      source ${EBSIM_APPS_DIR}/gcc/9.2.0/setup.sh
+      source ${EBSIM_APPS_DIR}/clang/8.0.1/setup.sh
+      source ${EBSIM_APPS_DIR}/openmpi/4.0.1/setup.sh
+
       source /usr/casc/EBSim/apps/rh7/valgrind/3.13.0/setup.sh
 
       if ( true )
