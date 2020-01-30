@@ -42,6 +42,7 @@ gnu:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=gfortran CC=gcc CXX=g++ cmake ../parflow \
+	-DCMAKE_C_FLAGS="-Wall" \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
@@ -96,9 +97,10 @@ tux:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
+	-DCMAKE_C_FLAGS="-Wall -Werror" \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
-	-DCMAKE_BUILD_TYPE=Debug \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_ENABLE_HDF5=TRUE \
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
@@ -113,6 +115,8 @@ tux:
 
 #	-DCMAKE_BUILD_TYPE=Debug \
 
+#	-DCMAKE_C_FLAGS="-Wall -Werror" \
+
 .PHONEY : docs
 doc:
 	(pushd $(BUILD_DIR) && make doxygen)
@@ -122,9 +126,10 @@ tux-valgrind:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
+	-DCMAKE_C_FLAGS="-Wall -Werror" \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
 	-DPARFLOW_ENABLE_TIMING=TRUE \
-	-DCMAKE_BUILD_TYPE=Debug \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_ENABLE_HDF5=TRUE \
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
