@@ -175,9 +175,11 @@ case $(hostname) in
 	 echo "Setting up debug env"
 
 	 source $EBSIM_APPS_DIR/openmpi/3.0.0-debug/setup.sh
-	 PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
-	 PARFLOW_HDF5_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
-	 PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 export PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 export PARFLOW_HDF5_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 export PARFLOW_NETCDF_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 export NCDIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
+	 export PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/openmpi/3.0.0-debug
 
 	 export PARFLOW_MPIEXEC_EXTRA_FLAGS="--mca mpi_yield_when_idle 1 --oversubscribe"
       else
@@ -198,6 +200,7 @@ case $(hostname) in
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DTCL_TCLSH=${PARFLOW_TCL_DIR}/bin/tclsh8.6 -DTCL_LIBRARY=${PARFLOW_TCL_DIR}/lib/libtcl8.6.so -DTCL_INCLUDE_PATH=${PARFLOW_TCL_DIR}/include -DTK_LIBRARY=${PARFLOW_TCL_DIR}/lib/libtk8.6.so -DTK_INCLUDE_PATH=${PARFLOW_TCL_DIR}/include"
       
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
+      #PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=smpi -DPARFLOW_AMPS_SEQUENTIAL_IO=true"
       
       PARFLOW_MAKE_OPTIONS="-j 12"
       ;;
