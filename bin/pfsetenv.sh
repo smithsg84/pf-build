@@ -161,7 +161,7 @@ case $(hostname) in
       # LLNL Linux workstations
       # smith84@llnl.gov
       # 2019/01/28
-      source $EBSIM_APPS_DIR/cmake/3.9.4/setup.sh
+      source $EBSIM_APPS_DIR/cmake/3.12.4/setup.sh
       source ${EBSIM_APPS_DIR}/uncrustify/0.61/setup.sh
       #source ${EBSIM_APPS_DIR}/rtags/2.37/setup.sh
       source ${EBSIM_APPS_DIR}/gcc/9.2.0/setup.sh
