@@ -72,10 +72,11 @@ lc:
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_ENABLE_HDF5=TRUE \
 	-DPARFLOW_ENABLE_HYPRE=TRUE \
-	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	-DPARFLOW_ENABLE_DOXYGEN=ON \
 	$(PARFLOW_CMAKE_ARGS))
+
+#	-DPARFLOW_ENABLE_SUNDIALS=TRUE \
 
 lc-valgrind:
 	echo $(PARFLOW_CMAKE_ARGS)
@@ -207,9 +208,9 @@ install:
 
 .PHONEY : clean
 clean:
-	@(test -f $(BUILD_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test && make clean) || true
-	@(test -f $(BUILD_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/clm && make clean) || true
-	@(test -f $(BUILD_DIR)/config/Makefile.config && pushd $(SRC_DIR)/examples && make clean) || true
+	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test && make clean) || true
+	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/clm && make clean) || true
+	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/examples && make clean) || true
 
 .PHONEY : veryclean
 veryclean: clean
