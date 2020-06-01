@@ -211,7 +211,7 @@ case $(hostname) in
 
       echo "Setting up for quartz"
 
-      module load cmake/3.9.2
+      module load cmake/3.14.5
 
       PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
       PARFLOW_HYPRE_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}/hypre/2.10.1
@@ -256,7 +256,7 @@ case $(hostname) in
       echo "Setting up for flash"
 
       module load gcc/8.1.0
-      module load cmake/3.9.2
+      module load cmake/3.14.5
 
       LOCAL_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}
 

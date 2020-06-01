@@ -8,14 +8,6 @@ echo 'STARTING JOB'
 
 #export SLURM_OVERCOMMIT=1
 
-for i in $(seq 3)
-do
-   unset PARFLOW_USE_CLUSTERING
-   make check > octree.$i.out
+make check 
    
-   export PARFLOW_USE_CLUSTERING=1
-   make check > cluster.$i.out
-done
-
-
 echo 'ALL DONE'
