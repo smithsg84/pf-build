@@ -255,21 +255,16 @@ case $(hostname) in
 
       echo "Setting up for flash"
 
-      module load gcc/8.1.0
+      #module load gcc/8.1.0
       module load cmake/3.14.5
 
       LOCAL_DIR=/usr/gapps/thcs/apps/${SYS_TYPE}
 
       PARFLOW_HYPRE_DIR=${LOCAL_DIR}/hypre/2.17.0-gcc
-      #PARFLOW_SUNDIALS_DIR=${LOCAL_DIR}/sundials/R4475-pf
       PARFLOW_HDF5_DIR=${LOCAL_DIR}/hdf/1.8.21
       PARFLOW_SILO_DIR=${LOCAL_DIR}/silo/4.10.2
       PARFLOW_SZLIB_DIR=/usr
 
-      #PARFLOW_HYPRE_DIR=${LOCAL_DIR}/hypre/2.15.1
-      #PARFLOW_HDF5_DIR=/usr/gapps/silo/hdf5/1.8.16/${SYS_TYPE}
-      #PARFLOW_SZLIB_DIR=/usr/gapps/silo/szip/2.1/${SYS_TYPE}
-      #PARFLOW_SILO_DIR=/usr/gapps/silo/4.10.2/${SYS_TYPE}
       PARFLOW_ZLIB_DIR=/usr
       PARFLOW_CMAKE_ARGS="${PARFLOW_CMAKE_ARGS} -DPARFLOW_AMPS_LAYER=mpi1 -DPARFLOW_AMPS_SEQUENTIAL_IO=true -DPARFLOW_HAVE_CLM=yes"
       
