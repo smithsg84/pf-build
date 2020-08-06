@@ -8,6 +8,8 @@
 # For details, see the LICENSE file.
 # LLNS Copyright End
 
+SHELL=/bin/bash
+
 # Some simple build configurations for Parflow
 
 SRC_DIR=parflow
@@ -47,7 +49,7 @@ gnu:
 	-DPARFLOW_HAVE_CLM=ON \
 	-DPARFLOW_AMPS_SEQUENTIAL_IO=true \
 	-DPARFLOW_AMPS_LAYER=seq \
-	-DCMAKE_INSTALL_PREFIX=/home/smith84/projects/conus/metadata-168/pf-build/local/rh7)
+	-DCMAKE_INSTALL_PREFIX=$(PARFLOW_DIR))
 
 cygwin:
 	echo $(PARFLOW_CMAKE_ARGS)
