@@ -164,13 +164,12 @@ case $(hostname) in
       source $EBSIM_APPS_DIR/cmake/3.17.3/setup.sh
       source ${EBSIM_APPS_DIR}/uncrustify/0.61/setup.sh
       #source ${EBSIM_APPS_DIR}/rtags/2.37/setup.sh
-      source ${EBSIM_APPS_DIR}/gcc/9.2.0/setup.sh
-      source ${EBSIM_APPS_DIR}/clang/8.0.1/setup.sh
-      source ${EBSIM_APPS_DIR}/openmpi/4.0.1/setup.sh
+      source ${EBSIM_APPS_DIR}/gcc/10.2.0/setup.sh
+      source ${EBSIM_APPS_DIR}/clang/10.0.0/setup.sh
 
-      source /usr/casc/EBSim/apps/rh7/valgrind/3.13.0/setup.sh
+      source /usr/casc/EBSim/apps/rh7/valgrind/3.15.0/setup.sh
 
-      if ( true )
+      if ( false )
       then
 	 echo "Setting up debug env"
 
@@ -183,11 +182,17 @@ case $(hostname) in
 
 	 export PARFLOW_MPIEXEC_EXTRA_FLAGS="--mca mpi_yield_when_idle 1 --oversubscribe"
       else
-	 module load mpi/openmpi-x86_64
-	 PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
-	 
+	 #module load mpi/openmpi-x86_64
+	 #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.openmpi
 	 #module load mpi/mpich-x86_64
 	 #PARFLOW_SILO_DIR=/usr/casc/EBSim/apps/rh7/silo/4.10.2.mpich
+	 
+	 source ${EBSIM_APPS_DIR}/openmpi/4.0.5/setup.sh
+	 export PARFLOW_HYPRE_DIR=$EBSIM_APPS_DIR/openmpi/4.0.5
+	 export PARFLOW_HDF5_DIR=$EBSIM_APPS_DIR/openmpi/4.0.5
+	 export PARFLOW_NETCDF_DIR=$EBSIM_APPS_DIR/openmpi/4.0.5
+	 export NCDIR=$EBSIM_APPS_DIR/openmpi/4.0.5
+	 export PARFLOW_SILO_DIR=$EBSIM_APPS_DIR/openmpi/4.0.5
       fi
 
       PARFLOW_CC=mpicc
