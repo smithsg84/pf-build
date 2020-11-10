@@ -91,6 +91,7 @@ lc:
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	-DPARFLOW_ENABLE_DOXYGEN=ON \
         -DMPIEXEC_POSTFLAGS="--overcommit" \
+	-DPARFLOW_ENABLE_PYTHON=ON      \
 	$(PARFLOW_CMAKE_ARGS))
 
 lc-openmp:
@@ -242,8 +243,8 @@ install:
 
 .PHONEY : clean
 clean:
-	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test && make clean) || true
-	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/clm && make clean) || true
+	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/tcl && make clean) || true
+	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/tcl/clm && make clean) || true
 	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/examples && make clean) || true
 
 .PHONEY : veryclean
