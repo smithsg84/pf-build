@@ -26,11 +26,11 @@ all:
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
 #	-DMPI_Fortran_COMPILER=${PARFLOW_F77} \
 
-.PHONEY : spack
+.PHONY : spack
 spack:
 	bin/pfstack
 
-.PHONEY : cmake
+.PHONY : cmake
 clang:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -124,7 +124,10 @@ lc-valgrind:
         -DPARFLOW_ENABLE_VALGRIND=true \
 	$(PARFLOW_CMAKE_ARGS))
 
-.PHONEY : tux
+steve:
+	echo $$(which mpiexec)
+
+.PHONY : tux
 tux:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -142,8 +145,7 @@ tux:
 	-DSILO_ROOT=$(PARFLOW_SILO_DIR) \
 	-DPARFLOW_ENABLE_DOXYGEN=ON \
         -DMPIEXEC_POSTFLAGS="--oversubscribe" \
-	-D PARFLOW_ENABLE_PYTHON=ON      \
-	-D PARFLOW_PYTHON_VIRTUAL_ENV=ON \
+        -DMPIEXEC_EXECUTABLE=$$(which mpiexec) \
 	$(PARFLOW_CMAKE_ARGS))
 
 # 	-DPARFLOW_ENABLE_LATEX=TRUE \
@@ -155,11 +157,11 @@ tux:
 
 #	-DCMAKE_C_FLAGS="-Wall -Werror" \
 
-.PHONEY : docs
+.PHONY : docs
 doc:
 	(pushd $(BUILD_DIR) && make doxygen)
 
-.PHONEY : tux-valgrind
+.PHONY : tux-valgrind
 tux-valgrind:
 	echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -181,7 +183,7 @@ tux-valgrind:
 # NetCDF is failing on Redhat 7.3
 #	-DPARFLOW_ENABLE_NETCDF=TRUE \
 
-.PHONEY : cmake-mpi-profile
+.PHONY : cmake-mpi-profile
 cmake-mpi-profile:
 	mkdir -p $(BUILD_DIR)
 	(pushd $(BUILD_DIR) && FC=$(PARFLOW_F77) CC=$(PARFLOW_CC) CXX=$(PARFLOW_CXX) cmake ../parflow \
@@ -203,7 +205,7 @@ cmake-oas3:
 	$(PARFLOW_CMAKE_ARGS))
 
 
-.PHONEY : cori
+.PHONY : cori
 cori:
 	@echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -218,7 +220,7 @@ cori:
 	-DMPIEXEC='/usr/bin/srun' -DMPIEXEC_NUMPROC_FLAG='-n' \
 	$(PARFLOW_CMAKE_ARGS))
 
-.PHONEY : cori-wrf
+.PHONY : cori-wrf
 cori-wrf:
 	@echo $(PARFLOW_CMAKE_ARGS)
 	mkdir -p $(BUILD_DIR)
@@ -230,23 +232,23 @@ cori-wrf:
 	-DNETCDF_INCLUDE_DIR=${PARFLOW_NETCDF_DIR}/include -DNETCDF_LIBRARY=${PARFLOW_NETCDF_DIR}/lib/libnetcdf.a \
 	$(PARFLOW_CMAKE_ARGS))
 
-.PHONEY : test
+.PHONY : test
 test:
 	(pushd $(BUILD_DIR) && make test)
 
-.PHONEY : check
+.PHONY : check
 check: test
 
-.PHONEY : install
+.PHONY : install
 install:
 	(pushd $(BUILD_DIR) && make $(PARFLOW_MAKE_OPTIONS) install)
 
-.PHONEY : clean
+.PHONY : clean
 clean:
 	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/tcl && make clean) || true
 	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/test/tcl/clm && make clean) || true
 	@(test -f $(PARFLOW_DIR)/config/Makefile.config && pushd $(SRC_DIR)/examples && make clean) || true
 
-.PHONEY : veryclean
+.PHONY : veryclean
 veryclean: clean
 	@rm -fr $(BUILD_DIR) $(INSTALL_DIR)
