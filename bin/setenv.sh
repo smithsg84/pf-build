@@ -25,22 +25,7 @@ then
    echo "${0} should be sourced, not executed: source ${0}"
 fi
 
-# Appends to path if not path not already present
-function appendToPath {
-   echo $PATH | grep -q $1
-   if [ $? -ne 0 ]
-   then
-      PATH=${PATH}:${1}
-   fi
-}
-
-function prependToPath {
-   echo $PATH | grep -q $1
-   if [ $? -ne 0 ]
-   then
-      PATH=${1}:${PATH}
-   fi
-}
+export PROJECT="conus"
 
 function appendToLdPath {
 
