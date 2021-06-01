@@ -296,6 +296,7 @@ case $(hostname) in
       # Checks based on uname.
       case $(uname -a) in
 	 *chaos*)
+	    # General LC
 
 	    if [ -f /usr/local/tools/dotkit/init.sh ]; then
                . /usr/local/tools/dotkit/init.sh
@@ -327,6 +328,9 @@ case $(hostname) in
 	    PARFLOW_CXX=mpiCC
 	    PARFLOW_F77=mpif77
 	    PARFLOW_FC=mpif90
+
+	    cores=$(grep 'cpu cores' /proc/cpuinfo | uniq | awk '{print $4}')
+    	    PARFLOW_MAKE_OPTIONS="-j $cores"
 	    ;;
 	  *CYGWIN*)
 	    PARFLOW_CC=mpicc
@@ -346,6 +350,8 @@ esac
 #=============================================================================
 # Generic configuration 
 #=============================================================================
+
+
 
 appendToPath $PARFLOW_DIR/bin
 

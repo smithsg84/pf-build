@@ -20,7 +20,7 @@ default: all install
 #default: veryclean cmake-mpi-tux all install test
 
 all:
-	(pushd $(BUILD_DIR);make $(PARFLOW_MAKE_OPTIONS) all)
+	(pushd $(BUILD_DIR) && make $(PARFLOW_MAKE_OPTIONS) all)
 
 # This is how to set the MPI compiler
 #	-DMPI_C_COMPILER=${PARFLOW_CC} \
